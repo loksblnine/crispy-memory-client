@@ -1,4 +1,7 @@
 import React from "react";
+import FeedbackPage from "../components/content/guest/FeedbackPage";
+import LoginPage from "../components/content/guest/LoginPage";
+import AdminPage from "../components/content/auth/AdminPage";
 
 export const ACTIONS = {
   CALLS: {
@@ -16,7 +19,18 @@ export const ACTIONS = {
 
 export const guestRoutes = [
   {
-    path: '/calls',
-    Component: <React.Fragment/>
+    path: '/feedback-form',
+    Component: <FeedbackPage/>
+  },
+  {
+    path: '/login',
+    Component: <LoginPage/>
+  },
+];
+
+export const authRoutes = [
+  {
+    path: '/admin',
+    Component: <AdminPage/>
   },
 ];

@@ -1,24 +1,26 @@
 import React from 'react';
-import './App.css';
+import {BrowserRouter as Router} from "react-router-dom";
+import {ToastContainer} from "react-toastify";
 
-function App() {
+import 'react-toastify/dist/ReactToastify.css';
+
+import Header from "./header/Header";
+import AppRouter from "./AppRouter";
+import Footer from "./footer/Footer";
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <React.Fragment>
+      <div className="content" style={{minHeight: "calc(100vh - 70px)"}}>
+        <Router>
+          <Header/>
+          <AppRouter/>
+        </Router>
+      </div>
+      <Footer/>
 
+      <ToastContainer/>
+    </React.Fragment>
+  );
+};
 export default App;
