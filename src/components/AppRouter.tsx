@@ -1,13 +1,11 @@
-import React, {useEffect} from 'react';
-import {Route, Routes, useNavigate} from "react-router-dom";
+import React from 'react';
+import {Route, Routes} from "react-router-dom";
 
 import NotFound from "../http/components/404";
 
 import {authRoutes, guestRoutes} from "../utils/constants";
 
 const AppRouter = () => {
-  const navigate = useNavigate();
-
   return (
     <Routes>
       {guestRoutes.map(({path, Component}) =>
