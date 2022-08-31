@@ -2,9 +2,10 @@ import React, {useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-const EditFeedback = () => {
+const EditFeedback = ({feedback}: any) => {
   const [show, setShow] = useState(false);
-
+  const [feedb, setFeedback] = useState(feedback);
+  console.log(1234, feedb);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -32,4 +33,4 @@ const EditFeedback = () => {
   );
 };
 
-export default <EditFeedback/>;
+export default EditFeedback;

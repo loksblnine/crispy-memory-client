@@ -1,7 +1,8 @@
 import {combineReducers} from 'redux';
+import feedbacks from "./feedbackReducer";
 
 const appReducer = combineReducers({
-
+  feedbacks
 });
 
 const rootReducer = (state: any, action: any) => {

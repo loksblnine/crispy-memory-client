@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = process.env.API_URL || "http://localhost:5000"
+const baseURL = "https://tetalab-testing-server.herokuapp.com"
 
 export const apiGet = axios.create({baseURL})
 export const apiPost = axios.create({baseURL})
