@@ -19,16 +19,16 @@ const Header = () => {
             Leave feedback
           </Button>
           {
-            user.role === 0 ?
-              <Button onClick={() => navigate('/login')}
-                      className="m-1 btn btn-xl"
-              >
-                Login
-              </Button> :
+            user.role === 1 ?
               <Button onClick={() => navigate('/admin')}
                       className="m-1 btn btn-xl"
               >
                 Admin panel
+              </Button> :
+              <Button onClick={() => navigate('/login')}
+                      className="m-1 btn btn-xl"
+              >
+                Login
               </Button>
           }
         </Nav>

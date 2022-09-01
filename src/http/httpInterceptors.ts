@@ -1,11 +1,11 @@
 import axios from "axios";
 
-const baseURL = "https://tetalab-testing-server.herokuapp.com"
+const baseURL = "http://localhost:5000"; //"https://tetalab-testing-server.herokuapp.com"
 
-export const apiGet = axios.create({baseURL})
-export const apiPost = axios.create({baseURL})
-export const apiDelete = axios.create({baseURL})
-export const apiPut = axios.create({baseURL})
+export const apiGet = axios.create({baseURL});
+export const apiPost = axios.create({baseURL});
+export const apiDelete = axios.create({baseURL});
+export const apiPut = axios.create({baseURL});
 
 apiGet.interceptors.request.use((config) => {
   config.method = "get";
