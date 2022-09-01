@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Route, Routes} from "react-router-dom";
+import {Route, Routes, useNavigate} from "react-router-dom";
 
 import NotFound from "../http/components/404";
 
@@ -8,12 +8,13 @@ import {useAppDispatch, useAppSelector} from "../hooks";
 import {checkAuth} from "../store/actions/userActions";
 
 const AppRouter = () => {
-
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   // @ts-ignore
   const role = useAppSelector((state) => state.user.user.role);
   useEffect(() => {
     dispatch(checkAuth());
+    navigate('/feedback');
   }, []);
 
   return (
