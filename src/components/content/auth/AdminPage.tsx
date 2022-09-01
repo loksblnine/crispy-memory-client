@@ -88,7 +88,7 @@ const AdminPage = () => {
           {feedbacks?.map((item: any) => (
             <tr key={item._id}>
               <th scope="row"> {item.id}</th>
-              <td>{item.user?.email}</td>
+              <td>{item.users?.email}</td>
               <td>{item.mark}</td>
               <td>{item.text}</td>
               <td>{item.time}</td>
