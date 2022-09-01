@@ -7,7 +7,7 @@ type Feedback = {
   email: string,
   mark: number,
   text: string,
-  time: Date,
+  time?: Date,
 }
 
 export const setFeedbacks = (page: number, queryString: string) => {
@@ -16,10 +16,18 @@ export const setFeedbacks = (page: number, queryString: string) => {
       const {data}: any = await apiGet({
         url: `/feedbacks?page=${page}${queryString}`
       });
-      dispatch({
-        type: ACTIONS.FEEDBACK.SET_FEEDBACKS,
-        payload: data
-      });
+
+      if (queryString.length) {
+        dispatch({
+          type: ACTIONS.FEEDBACK.SET_FILTERED_ARRAY,
+          payload: data
+        });
+      } else {
+        dispatch({
+          type: ACTIONS.FEEDBACK.SET_FEEDBACKS,
+          payload: data
+        });
+      }
     } catch (e) {
       toast.error("Something went wrong");
     }
@@ -34,13 +42,13 @@ export const setReadyFeedbacks = (isReady: boolean) => ({
 export const updateFeedback = (feedback: Feedback, id: number) => {
   return async (dispatch: any) => {
     try {
-      const {data} = await apiPut({
+      await apiPut({
         data: feedback,
         url: `/feedbacks/${id}`
       });
       dispatch({
         type: ACTIONS.FEEDBACK.UPDATE_FEEDBACK,
-        payload: data
+        payload: {...feedback, id, time: new Date().toISOString()}
       });
     } catch (e) {
       toast.error("Something went wrong");
@@ -59,6 +67,7 @@ export const addFeedback = (feedback: Feedback) => {
         type: ACTIONS.FEEDBACK.ADD_FEEDBACK,
         payload: data
       });
+      toast.success("Feedback posted!");
     } catch (e) {
       toast.error("Something went wrong");
     }

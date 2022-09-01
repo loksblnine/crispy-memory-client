@@ -65,8 +65,8 @@ const feedbackReducer = (state = initialState, action: { type: string; payload: 
     case ACTIONS.FEEDBACK.DELETE_FEEDBACK: {
       return {
         ...state,
-        items: state.items.filter((item: any) => item._id !== action.payload),
-        filteredItems: state.items.filter((item: any) => item._id !== action.payload),
+        items: state.items.filter((item: any) => item.id !== action.payload),
+        filteredItems: state.items.filter((item: any) => item.id !== action.payload),
       };
     }
     case ACTIONS.FEEDBACK.SET_PAGE: {
@@ -85,20 +85,6 @@ const feedbackReducer = (state = initialState, action: { type: string; payload: 
       return {
         ...state,
         filteredItems: state.items
-      }
-    }
-    case ACTIONS.FEEDBACK.SORT : {
-      return {
-        ...state,
-        filteredItems: state.filteredItems.sort((i1: any, i2: any) => {
-          if (i1[`${action.payload[0]}`] < i2[`${action.payload[0]}`]) {
-            return (-1 * (action.payload[1] === "ASC" ? 1 : -1))
-          }
-          if (i1[`${action.payload[0]}`] > i2[`${action.payload[0]}`]) {
-            return (1 * (action.payload[1] === "ASC" ? 1 : -1))
-          }
-          return 0
-        }),
       }
     }
     default:

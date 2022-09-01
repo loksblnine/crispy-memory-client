@@ -1,13 +1,17 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "../../../hooks";
 import {deleteFeedback, setFeedbacks, setReadyFeedbacks} from "../../../store/actions/feedbackActions";
 import {Spinner} from "react-bootstrap";
 
 import EditFeedback from "./EditFeedback";
 import AddFeedback from "./AddFeedback";
+import {COLLAPSE_ARROWS, EXPAND_ARROWS} from "../../../utils/svg";
+import {ACTIONS} from "../../../utils/constants";
 
 const AdminPage = () => {
   const dispatch = useAppDispatch();
+  const [openFilter, setOpenFilter] = useState(false)
+  const [searchText, setSearchText] = useState("");
   const feedbacks = useAppSelector((state) => state.feedbacks.filteredItems);
   const feedbacksPage = useAppSelector((state) => state.feedbacks.page);
   const loadNext = useAppSelector((state) => state.feedbacks.loadNext);
@@ -33,6 +37,40 @@ const AdminPage = () => {
   }
   return (
     <div className="container">
+      <div className="d-flex mt-5 justify-content-between">
+        <button className="btn m-4" type="button" data-toggle="collapse"
+                data-target="#Filter" onClick={(e) => {
+          e.preventDefault();
+          setOpenFilter(!openFilter);
+        }}
+                aria-controls="Filter">Filter &nbsp;
+          {!openFilter ? EXPAND_ARROWS : COLLAPSE_ARROWS}
+        </button>
+      </div>
+      {openFilter && <div id="Filter">
+        <div className="form-group">
+          <div className="form-group">
+            <label>Use key word(s) to find the feedback</label>
+            <input className="form-control" autoComplete="on"
+                   type="text" value={searchText}
+                   placeholder="Type to search..."
+                   onChange={(e) => setSearchText(e.target.value)}
+            />
+          </div>
+          <div className="form-group d-row">
+            <button className="btn btn-outline-primary m-2"
+                    onClick={() => {
+                      dispatch(setFeedbacks(0, `&text=${searchText}`));
+                    }}>Search
+            </button>
+            <button className="btn btn-outline-secondary m-2"
+                    onClick={() => {
+                      dispatch({type: ACTIONS.FEEDBACK.CLEAR_FILTERED});
+                    }}>Clear
+            </button>
+          </div>
+        </div>
+      </div>}
       {feedbacks.length !== 0 ? (
         <table className="table mt-5 text-justify">
           <thead>
@@ -65,7 +103,7 @@ const AdminPage = () => {
           </tbody>
         </table>) : (
         <div>
-          The calls list is empty.
+          The feedbacks list is empty.
         </div>
       )}
       {
