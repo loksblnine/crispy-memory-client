@@ -3,23 +3,34 @@ import {useNavigate} from "react-router-dom";
 import {Button, Container, Nav, Navbar} from "react-bootstrap";
 
 import './header.css';
+import {useAppSelector} from "../../hooks";
 
 const Header = () => {
   const navigate = useNavigate();
+  // @ts-ignore
+  const user = useAppSelector((state) => state.user.user);
   return (
     <Navbar>
       <Container>
         <Nav>
-          <Button onClick={() => navigate('/calls')}
+          <Button onClick={() => navigate('/feedback')}
                   className="m-1 btn btn-xl"
           >
-            Main page
+            Leave feedback
           </Button>
-          <Button onClick={() => navigate('/stats')}
-                  className="m-1 btn btn-xl"
-          >
-            Statistic
-          </Button>
+          {
+            user.role === 0 ?
+              <Button onClick={() => navigate('/login')}
+                      className="m-1 btn btn-xl"
+              >
+                Login
+              </Button> :
+              <Button onClick={() => navigate('/admin')}
+                      className="m-1 btn btn-xl"
+              >
+                Admin panel
+              </Button>
+          }
         </Nav>
       </Container>
     </Navbar>

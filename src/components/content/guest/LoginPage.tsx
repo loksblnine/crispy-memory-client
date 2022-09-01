@@ -1,23 +1,29 @@
 import React, {useState} from 'react';
 import {useFormik} from 'formik';
 import {toast} from "react-toastify";
+import {useAppDispatch} from "../../../hooks";
+import {login} from "../../../store/actions/userActions";
+import {useNavigate} from "react-router-dom";
 
 const validate = (values: { password: string | any[]; email: string; }) => {
   const errors: { password?: string, email?: string } = {};
   if (!values.password) {
-    errors.password = 'Пароль обязателен';
+    errors.password = 'Password is required';
   } else if (values.password.length < 8) {
-    errors.password = 'Короткий пароль';
+    errors.password = 'Password too short';
   }
   if (!values.email) {
-    errors.email = 'Адрес электронный почты обязателен';
+    errors.email = 'Email is required';
   } else if (!/^[A-Za-z0-9._%+-]+@[A-Za-z]+\.[A-Za-z]+/i.test(values.email)) {
-    errors.email = 'Невалидный адрес электронной почты';
+    errors.email = 'Invalid email address';
   }
   return errors;
 };
 
 const LoginPage = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const [type, setType] = useState('password');
   const formik = useFormik({
     initialValues: {
@@ -27,8 +33,9 @@ const LoginPage = () => {
     validate,
     onSubmit: async () => {
       try {
+        dispatch(login(formik.values.email, formik.values.password, navigate));
       } catch (e) {
-        toast("Проверьте логин или пароль");
+        toast("Check ur login or password");
       }
     }
   });
@@ -45,7 +52,7 @@ const LoginPage = () => {
     <div style={loginPageStyle}>
       <form onSubmit={formik.handleSubmit} className="form">
         <div className="form-group">
-          <label className="text" htmlFor="email">Email</label>
+          <label className="text m-2" htmlFor="email">Email</label>
           <input
             id="email"
             name="email"
@@ -53,10 +60,10 @@ const LoginPage = () => {
             value={formik.values.email}
             onChange={formik.handleChange}
           />
-          {formik.errors.email ? <div className="error">{formik.errors.email}</div> : null}
+          {formik.errors.email ? <div className="text-danger">{formik.errors.email}</div> : null}
         </div>
         <div className="form-group">
-          <label className="text" htmlFor="password">Пароль</label>
+          <label className="text m-2" htmlFor="password">Password</label>
           <input
             id="password"
             name="password"
@@ -83,16 +90,16 @@ const LoginPage = () => {
             &nbsp;
             {
               type === 'password' ?
-                "Посмотреть пароль" :
-                "Скрыть пароль"
+                "Reveal" :
+                "Hide"
             }
                     </span>
 
-          {formik.errors.password ? <div className="error">{formik.errors.password}</div> : null}
+          {formik.errors.password ? <div className="text-danger">{formik.errors.password}</div> : null}
         </div>
-        <div className="form-group form-group-inline">
+        <div className="form-group form-group-inline mt-3">
           <button type="submit" className="btn btn-primary">
-            Войти
+            Log in
           </button>
         </div>
       </form>
